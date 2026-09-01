@@ -35,14 +35,14 @@ public class Biblioteca {
 	public void buscarTitulo(String tituloBuscado) { //punto b)
 		for (Libro libroActual : this.libros) {
 			if (libroActual.getTitulo().equalsIgnoreCase(tituloBuscado)) {
-				libroActual.toString();
+				System.out.println(libroActual.toString());
 			}
 		}
 	}	
 	public void buscarIsbn(int isbnBuscado) { //punto b)
 		for (Libro libroActual : this.libros) {
 			if (libroActual.getISBN() == isbnBuscado) {
-				libroActual.toString();
+				System.out.println(libroActual.toString());
 			}
 		}
 	}

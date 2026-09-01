@@ -40,9 +40,16 @@ public class Main {
             System.out.println("3. Modificar autor o año");
             System.out.println("4. Eliminar libro");
             System.out.println("5. Salir");
-            System.out.print("Elija una opción: ");
-            opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpiar el salto de línea
+            
+            while (true) {
+                System.out.print("Elija una opción: ");
+                try {
+                    opcion = Integer.parseInt(scanner.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Ingrese un número válido.");
+                }
+            }
 
             switch (opcion) {
             
@@ -51,27 +58,58 @@ public class Main {
                 	String titulo = scanner.nextLine();
                 	System.out.println("Ingrese el autor.");
                 	String autor = scanner.nextLine();
-                	System.out.println("Ingrese el año de publicacion.");
-                	int anio = scanner.nextInt(); scanner.nextLine();
-                	System.out.println("Ingrese el ISBN.");
-                	int isbn = scanner.nextInt(); scanner.nextLine();
                 	
+                	int anio;
+                	while (true) {
+                		System.out.println("Ingrese el año de publicacion.");
+                		try {
+                			anio = Integer.parseInt(scanner.nextLine());
+                			break;
+                		} catch (NumberFormatException e) {
+                			System.out.println("Error. Debe ingresar un número entero.");
+                		}
+                	}
+                	
+                	int isbn;
+                	while (true) {
+	                	System.out.println("Ingrese el ISBN.");
+	                	try {
+	                		isbn = scanner.nextInt(); scanner.nextLine();
+	                		break;
+	                	} catch (NumberFormatException e){
+	                		System.out.println("Error. Debe ingresar un número entero.");
+	                	}
+	                	
+                	}
                 	Libro nuevoLibro = new Libro(titulo, autor, anio, isbn);                
                 	miBiblioteca.agregarLibro(nuevoLibro);                	
                     break;
                     
                     
                 case 2:
+                	
                 	System.out.println("Va a buscar por titulo o por ISBN? (T/I)");
                 	String opc = scanner.nextLine();
+                	
                 	if (opc.equalsIgnoreCase("T")) {
                 		System.out.println("Que titulo va a buscar?");
                 		titulo = scanner.nextLine();
                 		miBiblioteca.buscarTitulo(titulo);
+                		
                 	} else if (opc.equalsIgnoreCase("I")) {
-                		System.out.println("Qué ISBN va a buscar?");
-                		isbn = Integer.parseInt(scanner.nextLine());
-                		miBiblioteca.buscarIsbn(isbn);
+                		int isbnBuscado = 0;
+                		while (true) {
+                			System.out.println("Qué ISBN va a buscar?");
+                			try {
+                				isbnBuscado = Integer.parseInt(scanner.nextLine());
+                				break;
+                			} catch (NumberFormatException e) {
+                				System.out.println("Error. Debe ingresar un número entero.");
+                			}
+                		}
+                		
+                		miBiblioteca.buscarIsbn(isbnBuscado);
+                		
                 	} else {
                 		System.out.println("Error, tecla equivocada.");
                 	}
@@ -79,17 +117,39 @@ public class Main {
                     
                     
                 case 3:
-                    System.out.print("Ingrese el ISBN del libro a modificar: ");
-                    int isbnMod = scanner.nextInt();
-                    scanner.nextLine();
+                	int isbnMod;
+                	while (true) {
+                		System.out.print("Ingrese el ISBN del libro a modificar: ");
+                		try {
+                			isbnMod = Integer.parseInt(scanner.nextLine());
+                			break;
+                		} catch (NumberFormatException e) {
+                			System.out.println("Error. Debe ingresar un número entero.");
+                		}
+                	}
                     
                     Libro libroEncontrado = miBiblioteca.encontrarIsbn(isbnMod);
+                    
                     if (libroEncontrado != null) {
                         System.out.print("¿Qué desea modificar? (autor/anio): ");
                         String mod = scanner.nextLine();
                         System.out.print("Ingrese el nuevo valor: ");
                         String input = scanner.nextLine();
+                        
+                        if (mod.equalsIgnoreCase("anio")) {
+                        	while (true) {
+                        		try {
+                        			Integer.parseInt(input);
+                        			break;
+                        		} catch (NumberFormatException e) {
+                        			System.out.print("Error. El año debe ser un número entero. Ingrese el nuevo valor: ");
+                        			input = scanner.nextLine();
+                        		}
+                        	}
+                        }
+                        
                         miBiblioteca.modificarLibro(libroEncontrado, mod, input);
+                    
                     } else {
                         System.out.println("No se encontró ningún libro con ese ISBN.");
                     }
@@ -97,11 +157,18 @@ public class Main {
                     
                     
                 case 4:
-                    System.out.print("Ingrese el ISBN a eliminar: ");
-                    int isbnElim = scanner.nextInt();
+                	int isbnElim = 0;
+                	while (true) {
+                		System.out.print("Ingrese el ISBN a eliminar: ");
+                		try {
+                			isbnElim = Integer.parseInt(scanner.nextLine());
+                			break;
+                		} catch (NumberFormatException e) {
+                			System.out.println("Error. Debe ingresar un número entero.");
+                		}
+                	}
                     miBiblioteca.eliminarIsbn(isbnElim);
-                    break;
-                    
+                    break;                   
             }
         } while (opcion != 5);
         scanner.close();
