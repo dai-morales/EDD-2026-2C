@@ -30,6 +30,19 @@ public class Libro {
 	String titulo, autor;
 	int anioPublicacion, ISBN;
 	
+	public Libro() {
+		this.titulo = null;
+		this.autor = null;
+		this.anioPublicacion = 0;
+		this.ISBN = 0;
+	}
+	
+	public Libro(String titulo, String autor, int anioPublicacion, int ISBN) {
+		this.titulo = titulo;
+		this.autor = autor;
+		this.anioPublicacion = anioPublicacion;
+		this.ISBN = ISBN;
+	}
 	
 	public int getISBN() {
 		return ISBN;

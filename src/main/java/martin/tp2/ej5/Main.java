@@ -25,11 +25,85 @@ d)​ Un compañero propone que para el punto c), en lugar de modificar el objet
 libro viejo y se agregue uno nuevo con los datos actualizados. ¿Qué ventajas y desventajas tiene esta
 alternativa frente a usar los métodos setAutor() o setAnio()?*/
 
+import java.util.Scanner;
+
 public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Biblioteca miBiblioteca = new Biblioteca();
+        int opcion;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+        do {
+            System.out.println("\n--- SIMULADOR DE BIBLIOTECA ---");
+            System.out.println("1. Agregar libro");
+            System.out.println("2. Buscar libro");
+            System.out.println("3. Modificar autor o año");
+            System.out.println("4. Eliminar libro");
+            System.out.println("5. Salir");
+            System.out.print("Elija una opción: ");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Limpiar el salto de línea
 
-	}
-
+            switch (opcion) {
+            
+                case 1:
+                	System.out.println("Ingrese el titulo.");
+                	String titulo = scanner.nextLine();
+                	System.out.println("Ingrese el autor.");
+                	String autor = scanner.nextLine();
+                	System.out.println("Ingrese el año de publicacion.");
+                	int anio = scanner.nextInt(); scanner.nextLine();
+                	System.out.println("Ingrese el ISBN.");
+                	int isbn = scanner.nextInt(); scanner.nextLine();
+                	
+                	Libro nuevoLibro = new Libro(titulo, autor, anio, isbn);                
+                	miBiblioteca.agregarLibro(nuevoLibro);                	
+                    break;
+                    
+                    
+                case 2:
+                	System.out.println("Va a buscar por titulo o por ISBN? (T/I)");
+                	String opc = scanner.nextLine();
+                	if (opc.equalsIgnoreCase("T")) {
+                		System.out.println("Que titulo va a buscar?");
+                		titulo = scanner.nextLine();
+                		miBiblioteca.buscarTitulo(titulo);
+                	} else if (opc.equalsIgnoreCase("I")) {
+                		System.out.println("Qué ISBN va a buscar?");
+                		isbn = Integer.parseInt(scanner.nextLine());
+                		miBiblioteca.buscarIsbn(isbn);
+                	} else {
+                		System.out.println("Error, tecla equivocada.");
+                	}
+                    break;
+                    
+                    
+                case 3:
+                    System.out.print("Ingrese el ISBN del libro a modificar: ");
+                    int isbnMod = scanner.nextInt();
+                    scanner.nextLine();
+                    
+                    Libro libroEncontrado = miBiblioteca.encontrarIsbn(isbnMod);
+                    if (libroEncontrado != null) {
+                        System.out.print("¿Qué desea modificar? (autor/anio): ");
+                        String mod = scanner.nextLine();
+                        System.out.print("Ingrese el nuevo valor: ");
+                        String input = scanner.nextLine();
+                        miBiblioteca.modificarLibro(libroEncontrado, mod, input);
+                    } else {
+                        System.out.println("No se encontró ningún libro con ese ISBN.");
+                    }
+                    break;
+                    
+                    
+                case 4:
+                    System.out.print("Ingrese el ISBN a eliminar: ");
+                    int isbnElim = scanner.nextInt();
+                    miBiblioteca.eliminarIsbn(isbnElim);
+                    break;
+                    
+            }
+        } while (opcion != 5);
+        scanner.close();
+    }
 }

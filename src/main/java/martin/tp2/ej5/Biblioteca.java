@@ -24,12 +24,13 @@ public class Biblioteca {
 		
 		for (Libro libroActual : libros) {
 			if (mismoIsbn(libroNuevo, libroActual)) {
-				System.out.println("No se puede agregar un libro con el mismo ISBN.");
-			} else {
-				libros.add(libroNuevo);
-				System.out.println("Se ha añadido correctamente el libro con el ISBN " + libroNuevo.getISBN() + ".");
+				System.out.println("Error. ISBN repetido con " + libroActual.getTitulo() + ".");
+				return;
 			}
 		}
+		libros.add(libroNuevo);
+		System.out.println("Se ha añadido correctamente el libro con el ISBN " + libroNuevo.getISBN() + ".");
+
 	}
 	public void buscarTitulo(String tituloBuscado) { //punto b)
 		for (Libro libroActual : this.libros) {
@@ -52,13 +53,27 @@ public class Biblioteca {
 				libros.remove(libroActual);
 				flagEncontrado = true;
 				System.out.println("El libro con el ISBN " + isbnBuscado + " fue eliminado.");
+				break;
 			}
 		}
 		if (!flagEncontrado) {
 			System.out.println("No se encontró ningún libro con ese ISBN.");
 		}
 	}
-	public void modificarLibro(int isbnBuscado) { // punto c)
-		
+	public void modificarLibro(Libro libro, String mod, String input) { // punto c)
+		if (mod.equals("autor")) {
+			libro.setAutor(input);
+		} else if (mod.equals("anio")) {
+			libro.setAnioPublicacion(Integer.parseInt(input));
+		}
+	}
+	
+	public Libro encontrarIsbn(int isbnBuscado) {
+		for (Libro libroActual : this.libros) {
+			if (libroActual.getISBN() == isbnBuscado) {
+				return libroActual;
+			}
+		}
+		return null;
 	}
 }
